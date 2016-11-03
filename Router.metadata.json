@@ -1,0 +1,33 @@
+{
+  "__symbolic": "module",
+  "version": 1,
+  "metadata": {
+    "Fetch": {
+      "__symbolic": "class",
+      "members": {
+        "__ctor__": [
+          {
+            "__symbolic": "constructor",
+            "parameters": [
+              {
+                "__symbolic": "reference",
+                "module": "ionic-angular",
+                "name": "Platform"
+              },
+              {
+                "__symbolic": "reference",
+                "module": "@angular/http",
+                "name": "Http"
+              },
+              {
+                "__symbolic": "reference",
+                "module": "ionic-angular",
+                "name": "App"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
