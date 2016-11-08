@@ -119,8 +119,27 @@ constructor(platform: Platform, fetch: Fetch,) {
 }
 ```
 
-### How to set/delete token
-[>>>emiya-angular2-token<<<](https://github.com/ionic2-ninja/emiya-angular2-token)
+### How to set and delete token
+
+```
+import {Router} from 'emiya-angular2-token';
+
+export class TabsPage {
+
+constructor() {
+    //set tokon
+    Token.set('uuid','fasfasjfasjlk9312jkkfasjfaskl')
+    Token.set('token','fasfasjfasjlk9312jkkfasjfaskl')
+    //delete token
+    Token.delete('uuid')
+    Token.delete('token')
+    //check if token exists
+    Token.has('uuid')   //true or false
+    Token.has('token')
+  }
+}
+```
+#####more can be found [emiya-angular2-token](https://github.com/ionic2-ninja/emiya-angular2-token)
 
 
 ### Api Referrences(todo..)
