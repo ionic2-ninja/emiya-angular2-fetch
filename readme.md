@@ -120,7 +120,7 @@ constructor(platform: Platform, fetch: Fetch,) {
 ```
 
 ### How to set/delete token
-[>>>emiya-angular2-token<<<](http://example.net/)
+[>>>emiya-angular2-token<<<](https://github.com/ionic2-ninja/emiya-angular2-token)
 
 
 ### Api Referrences(todo..)
