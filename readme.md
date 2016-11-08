@@ -119,6 +119,9 @@ constructor(platform: Platform, fetch: Fetch,) {
 }
 ```
 
+### How to set/delete token
+[>>>emiya-angular2-token<<<](http://example.net/)
+
 
 ### Api Referrences(todo..)
 
