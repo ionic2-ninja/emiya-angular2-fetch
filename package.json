@@ -1,0 +1,42 @@
+{
+  "name": "emiya-angular2-fetch",
+  "version": "1.0.0",
+  "description": "An angular2 http component with token management and mutil url switch",
+  "main": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "emiya-js-utils": ">=1.0.0",
+    "emiya-angular2-token": ">=1.0.0",
+    "emiya-ionic2-router":">=1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic2-ninja/emiya-angular2-fetch.git"
+  },
+  "keywords": [
+    "angular2",
+    "ionic2",
+    "javascript",
+    "js",
+    "es6",
+    "http",
+    "https",
+    "fetch",
+    "request",
+    "network",
+    "get",
+    "post",
+    "delete",
+    "put",
+    "restful",
+    "xhr"
+  ],
+  "author": "emiyalee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ionic2-ninja/emiya-angular2-fetch/issues"
+  },
+  "homepage": "https://github.com/ionic2-ninja/emiya-angular2-fetch#readme"
+}
