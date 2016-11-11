@@ -136,7 +136,12 @@ var Fetch = (function () {
                 // if (!params.url || utils.simple_array_filter(api.interfaceMap, 'id', params.url).length <= 0)
                 //   throw new Error(params.url + ": http request url invalid");
                 //var request = utils.simple_array_filter(api.interfaceMap, 'id', params.url);
-                var request = _this.api[params.url];
+                var request;
+                try {
+                    request = _this.api[params.url];
+                }
+                catch (e) {
+                }
                 var url;
                 if (utils_1.notNull(request)) {
                     //request = request[0];

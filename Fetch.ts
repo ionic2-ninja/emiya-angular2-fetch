@@ -142,7 +142,12 @@ export class Fetch {
                 //   throw new Error(params.url + ": http request url invalid");
 
                 //var request = utils.simple_array_filter(api.interfaceMap, 'id', params.url);
-                var request = this.api[params.url];
+                var request
+                try {
+                    request = this.api[params.url];
+                } catch (e) {
+                    
+                }
                 var url;
                 if (utils.notNull(request)) {
                     //request = request[0];
