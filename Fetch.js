@@ -670,9 +670,10 @@ var Fetch = (function () {
         //console.log(str)
         return str.join("&");
     };
-    Fetch.prototype.translateObj2UrlParam = function (obj) {
+    Fetch.prototype.translateObj2UrlParam = function (obj, prefix) {
+        if (prefix === void 0) { prefix = null; }
         var stack = [];
-        this._translateObj(obj, '', stack);
+        this._translateObj(obj, prefix, stack);
         var result = {};
         for (var c in stack)
             result[stack[c]['key']] = stack[c]['value'];

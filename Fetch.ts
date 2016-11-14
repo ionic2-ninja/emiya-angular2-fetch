@@ -738,9 +738,9 @@ export class Fetch {
     }
 
 
-    public translateObj2UrlParam(obj) {
+    public translateObj2UrlParam(obj, prefix = null) {
         let stack = []
-        this._translateObj(obj, '', stack)
+        this._translateObj(obj, prefix, stack)
         let result = {}
         for (let c in stack)
             result[stack[c]['key']] = stack[c]['value']
