@@ -146,7 +146,7 @@ export class Fetch {
                 try {
                     request = this.api[params.url];
                 } catch (e) {
-                    
+
                 }
                 var url;
                 if (utils.notNull(request)) {
@@ -735,6 +735,24 @@ export class Fetch {
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
         //console.log(str)
         return str.join("&");
+    }
+
+
+    public translateObj2UrlParam(obj) {
+        let stack = []
+        this._translateObj(obj, '', stack)
+        let result = {}
+        for (let c in stack)
+            result[stack[c]['key']] = stack[c]['value']
+        return result
+    }
+
+    private _translateObj(obj, prefix, stack) {
+        for (let c in obj)
+            if (typeof obj[c] == 'object')
+                this._translateObj(obj[c], (prefix == null || prefix == '') ? (c) : (prefix + '[' + c + ']'), stack)
+            else
+                stack.push({key: (prefix == null || prefix == '') ? (c) : (prefix + '[' + c + ']'), value: obj[c]})
     }
 
 }

@@ -670,6 +670,21 @@ var Fetch = (function () {
         //console.log(str)
         return str.join("&");
     };
+    Fetch.prototype.translateObj2UrlParam = function (obj) {
+        var stack = [];
+        this._translateObj(obj, '', stack);
+        var result = {};
+        for (var c in stack)
+            result[stack[c]['key']] = stack[c]['value'];
+        return result;
+    };
+    Fetch.prototype._translateObj = function (obj, prefix, stack) {
+        for (var c in obj)
+            if (typeof obj[c] == 'object')
+                this._translateObj(obj[c], (prefix == null || prefix == '') ? (c) : (prefix + '[' + c + ']'), stack);
+            else
+                stack.push({ key: (prefix == null || prefix == '') ? (c) : (prefix + '[' + c + ']'), value: obj[c] });
+    };
     return Fetch;
 }());
 Fetch.decorators = [
