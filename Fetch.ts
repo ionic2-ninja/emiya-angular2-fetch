@@ -2,9 +2,7 @@
 import {Token} from 'emiya-angular2-token'
 import {Utils} from 'emiya-js-utils'
 import {Injectable} from '@angular/core';
-import {Platform, App} from 'ionic-angular';
 import {Http, URLSearchParams, Headers} from '@angular/http';
-import {Router} from 'emiya-ionic2-router';
 
 const constants = {
     tokenStorageMethod: 'local',
@@ -25,17 +23,18 @@ export class Fetch {
         {type: Injectable},
     ];
     private static ctorParameters = [
-        {type: Platform,},
         {type: Http,},
-        {type: App,},
-        {type: Router,},
     ];
 
-    constructor(private platform: Platform, private Http: Http, private app: App, private router: Router) {
-        if (this.platform.platforms().indexOf('cordova') >= 0)
+    constructor(private Http: Http) {
+        if(window['cordova'])
             this.proxyCanEnable = false;
         else
             this.proxyCanEnable = true;
+        // if (this.platform.platforms().indexOf('cordova') >= 0)
+        //     this.proxyCanEnable = false;
+        // else
+        //     this.proxyCanEnable = true;
         // let d={}
         // for(let c in api.interfaceMap){
         //   d[api.interfaceMap[c].id]=api.interfaceMap[c]
@@ -407,8 +406,8 @@ export class Fetch {
                                         if (remove_config[p].token_map)
                                             token.delete(remove_config[p].token_map);
                                         //alert(remove_config[p].token_map)
-                                        if (remove_config[p].redirect_to)
-                                            this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
                                         // setTimeout(function () {
                                         //   if (remove_config[p].redirect_to) {
                                         //     state.go(remove_config[p].redirect_to, remove_config[p].redirect_params, remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
@@ -418,8 +417,8 @@ export class Fetch {
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token.delete(remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
                                         //alert(remove_config[p].token_map)
                                         //alert(remove_config[p].token_map)
                                         // setTimeout(function () {
@@ -485,8 +484,8 @@ export class Fetch {
                                     if (remove_config[p].condition_value == null) {
                                         if (remove_config[p].token_map)
                                             token.delete(remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
                                         // setTimeout(function () {
                                         //   if (remove_config[p].redirect_to)
                                         //     state.go(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
@@ -495,8 +494,8 @@ export class Fetch {
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token.delete(remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
                                         // setTimeout(function () {
                                         //   if (remove_config[p].redirect_to)
                                         //     state.go(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_mode);

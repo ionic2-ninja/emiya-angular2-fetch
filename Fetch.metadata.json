@@ -11,23 +11,8 @@
             "parameters": [
               {
                 "__symbolic": "reference",
-                "module": "ionic-angular",
-                "name": "Platform"
-              },
-              {
-                "__symbolic": "reference",
                 "module": "@angular/http",
                 "name": "Http"
-              },
-              {
-                "__symbolic": "reference",
-                "module": "ionic-angular",
-                "name": "App"
-              },
-              {
-                "__symbolic": "reference",
-                "module": "emiya-ionic2-router",
-                "name": "Router"
               }
             ]
           }

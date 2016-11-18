@@ -51,10 +51,6 @@ export const Api = {
       condition_value: 'ok',//optional,determine the target data flag value,null means any value representing matched,otherwise only value===condition_value means matched
       "token_map": "uuid",    //which token we want to remove
       "token_remove_method": "local",   //where the token we removed from
-      "redirect_to": TabsPage,  //optional,after token removed,redirect to specified page
-      "redirect_done": (ev)=>{dosomething}, //optional,callback after redirection done
-      "redirect_params": {"abc": "vcc", "ccc": 3, "state_access_token": "aaa"},   //params for page redirected
-      "redirect_params_options": {duration:0}    //options for redirect operation
     }, ..]
   },
   

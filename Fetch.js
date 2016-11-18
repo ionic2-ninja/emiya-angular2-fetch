@@ -8,9 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var emiya_angular2_token_1 = require("emiya-angular2-token");
 var emiya_js_utils_1 = require("emiya-js-utils");
 var core_1 = require("@angular/core");
-var ionic_angular_1 = require("ionic-angular");
 var http_1 = require("@angular/http");
-var emiya_ionic2_router_1 = require("emiya-ionic2-router");
 var constants = {
     tokenStorageMethod: 'local',
     httpRequestTimeout: 15000,
@@ -18,17 +16,18 @@ var constants = {
     proxies: undefined
 };
 var Fetch = (function () {
-    function Fetch(platform, Http, app, router) {
-        this.platform = platform;
+    function Fetch(Http) {
         this.Http = Http;
-        this.app = app;
-        this.router = router;
         this.token = emiya_angular2_token_1.Token;
         this.utils = emiya_js_utils_1.Utils;
-        if (this.platform.platforms().indexOf('cordova') >= 0)
+        if (window['cordova'])
             this.proxyCanEnable = false;
         else
             this.proxyCanEnable = true;
+        // if (this.platform.platforms().indexOf('cordova') >= 0)
+        //     this.proxyCanEnable = false;
+        // else
+        //     this.proxyCanEnable = true;
         // let d={}
         // for(let c in api.interfaceMap){
         //   d[api.interfaceMap[c].id]=api.interfaceMap[c]
@@ -373,15 +372,10 @@ var Fetch = (function () {
                                     if (remove_config[p].condition_value == null) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
-                                        //alert(remove_config[p].token_map)
-                                        if (remove_config[p].redirect_to)
-                                            _this.router.push(remove_config[p].redirect_to, utils_1.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done);
                                     }
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            _this.router.push(remove_config[p].redirect_to, utils_1.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done);
                                     }
                             }
                         }
@@ -438,14 +432,10 @@ var Fetch = (function () {
                                     if (remove_config[p].condition_value == null) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            _this.router.push(remove_config[p].redirect_to, utils_1.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done);
                                     }
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
-                                        if (remove_config[p].redirect_to)
-                                            _this.router.push(remove_config[p].redirect_to, utils_1.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done);
                                     }
                             }
                         }
@@ -692,10 +682,7 @@ Fetch.decorators = [
     { type: core_1.Injectable },
 ];
 Fetch.ctorParameters = [
-    { type: ionic_angular_1.Platform },
     { type: http_1.Http },
-    { type: ionic_angular_1.App },
-    { type: emiya_ionic2_router_1.Router },
 ];
 Fetch = __decorate([
     core_1.Injectable()
