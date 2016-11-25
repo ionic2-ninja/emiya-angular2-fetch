@@ -71,7 +71,7 @@ var Fetch = (function () {
         headers.forEach(function () {
             var arg = [];
             for (var _i = 0; _i < arguments.length; _i++) {
-                arg[_i - 0] = arguments[_i];
+                arg[_i] = arguments[_i];
             }
             newP[arg[1]] = arg[0][0];
         });
@@ -230,7 +230,7 @@ var Fetch = (function () {
                         params.transformRequest = function () {
                             var arg = [];
                             for (var _i = 0; _i < arguments.length; _i++) {
-                                arg[_i - 0] = arguments[_i];
+                                arg[_i] = arguments[_i];
                             }
                             if (arg.length > 0)
                                 return arg[0];
@@ -321,7 +321,7 @@ var Fetch = (function () {
                                     _data = data;
                                 if (!_data)
                                     continue;
-                                paths = request['getTokens'][e].token_receive_path.split('.');
+                                paths = request['getTokens'][e].token_receive_path == null ? [] : request['getTokens'][e].token_receive_path.split('.');
                                 for (var d in paths) {
                                     if (paths[d].substr(0, 1) === '[' && paths[d].substr(paths[d].length - 1) === ']')
                                         index = paths[d].substr(1, paths[d].length - 2);

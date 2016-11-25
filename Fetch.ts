@@ -350,7 +350,7 @@ export class Fetch {
                                     _data = data;
                                 if (!_data)
                                     continue;
-                                paths = request['getTokens'][e].token_receive_path.split('.');
+                                paths = request['getTokens'][e].token_receive_path==null?[]:request['getTokens'][e].token_receive_path.split('.');
                                 for (var d in paths) {
                                     if (paths[d].substr(0, 1) === '[' && paths[d].substr(paths[d].length - 1) === ']')
                                         index = paths[d].substr(1, paths[d].length - 2);
