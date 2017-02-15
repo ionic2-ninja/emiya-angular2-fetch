@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+exports.__esModule = true;
 var emiya_angular2_token_1 = require("emiya-angular2-token");
 var emiya_js_utils_1 = require("emiya-js-utils");
 var core_1 = require("@angular/core");
@@ -61,6 +62,7 @@ var Fetch = (function () {
             }
             ;
             return this.utils.sortObject(inner, ['pathDept', 'pathLength', 'index'], false);
+            //return $filter('orderBy')(inner, ['pathDept', 'pathLength', 'index'], true);
         }
         else
             return [];
@@ -194,6 +196,7 @@ var Fetch = (function () {
                         params.method = 'GET';
                     else
                         params.method = 'POST';
+                    //throw new Error(params.url + ": http request method invalid");
                 }
                 if ('local://' != url.substr(0, 8))
                     if (constants.proxies && constants.proxies.configs && ((!utils_1.notBlankStr(useProxy) && _this.proxyCanEnable == false) || useProxy == false)) {
@@ -211,6 +214,7 @@ var Fetch = (function () {
                 if ('local://' === url.substr(0, 8)) {
                     url = url.substr(8);
                     params.method = "GET";
+                    //delete params.params;
                 }
                 else if (params.data && params.data instanceof FormData) {
                     if (!params.headers) {
@@ -254,6 +258,12 @@ var Fetch = (function () {
                                 params.params[token_name] = _token;
                             else
                                 params["params"] = { token_name: _token };
+                            /*if (url.indexOf('?') === -1)
+                             url = url + '?' + token_name + '=' + _token;
+                             else if (url.indexOf('?') === url.length - 1)
+                             url = url + token_name + "=" + _token;
+                             else
+                             url = url + "&" + token_name + "=" + _token;*/
                         }
                         else if (request['sendTokens'][c].token_transfer_mode === 'payload') {
                             if (params.method == 'GET') {
@@ -262,6 +272,13 @@ var Fetch = (function () {
                                     params.params[token_name] = _token;
                                 else
                                     params["params"] = { token_name: _token };
+                                // else {
+                                //   if (params.headers)
+                                //     params.headers[token_name] = _token;
+                                //   else
+                                //     params["headers"] = {token_name: _token};
+                                // }
+                                //throw new Error(params.url + ": http request method is " + params.method + " but token [" + request.tokens[c].token_map + "] transfer mod is " + request.tokens[c].token_transfer_mode + " which only support POST request");
                             }
                             else {
                                 if (params.data)
@@ -337,6 +354,7 @@ var Fetch = (function () {
                                 if (utils_1.notNull(_data)) {
                                     method = utils_1.notNull(request['getTokens'][e].token_storage_method) ? request['getTokens'][e].token_storage_method : constants.tokenStorageMethod;
                                     token_1.set(request['getTokens'][e].token_map, _data, null, null, 0, method);
+                                    // alert(request['getTokens'][e].token_map)
                                 }
                             }
                         }
@@ -372,10 +390,27 @@ var Fetch = (function () {
                                     if (remove_config[p].condition_value == null) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
+                                        //alert(remove_config[p].token_map)
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // setTimeout(function () {
+                                        //   if (remove_config[p].redirect_to) {
+                                        //     state.go(remove_config[p].redirect_to, remove_config[p].redirect_params, remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
+                                        //   }
+                                        // })
                                     }
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        //alert(remove_config[p].token_map)
+                                        //alert(remove_config[p].token_map)
+                                        // setTimeout(function () {
+                                        //   if (remove_config[p].redirect_to) {
+                                        //     state.go(remove_config[p].redirect_to, remove_config[p].redirect_params, remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
+                                        //   }
+                                        // })
                                     }
                             }
                         }
@@ -432,10 +467,22 @@ var Fetch = (function () {
                                     if (remove_config[p].condition_value == null) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // setTimeout(function () {
+                                        //   if (remove_config[p].redirect_to)
+                                        //     state.go(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
+                                        // })
                                     }
                                     else if (remove_config[p].condition_value == _data) {
                                         if (remove_config[p].token_map)
                                             token_1["delete"](remove_config[p].token_map);
+                                        // if (remove_config[p].redirect_to)
+                                        //     this.router.push(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_done)
+                                        // setTimeout(function () {
+                                        //   if (remove_config[p].redirect_to)
+                                        //     state.go(remove_config[p].redirect_to, utils.injectRedirectedParams(remove_config[p].redirect_params), remove_config[p].redirect_params_options, remove_config[p].redirect_mode);
+                                        // })
                                     }
                             }
                         }
@@ -490,6 +537,7 @@ var Fetch = (function () {
         if (!utils.notNull(request_config) && !override_url)
             return '';
         else if (utils.notNull(request_config)) {
+            //request_config = request_config[0];
         }
         else
             request_config = null;
@@ -581,6 +629,7 @@ var Fetch = (function () {
         if (!utils.notNull(request_config) && !override_url)
             return '';
         else if (utils.notNull(request_config)) {
+            //request_config = request_config[0];
         }
         else
             request_config = null;
@@ -688,3 +737,4 @@ Fetch = __decorate([
     core_1.Injectable()
 ], Fetch);
 exports.Fetch = Fetch;
+//# sourceMappingURL=Fetch.js.map

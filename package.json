@@ -1,14 +1,14 @@
 {
   "name": "emiya-angular2-fetch",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "An angular2 http component with token management and mutil url switch",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "emiya-js-utils": ">=1.0.0",
-    "emiya-angular2-token": ">=1.0.0"
+    "emiya-js-utils": ">=1.0.5",
+    "emiya-angular2-token": ">=1.0.9"
   },
   "repository": {
     "type": "git",
