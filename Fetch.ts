@@ -336,7 +336,13 @@ export class Fetch {
                     //alert(requestParams.url)
 
                     this.Http.request(requestParams.url, requestParams.params).subscribe((res)=> {
-                        let data = res.json(), status = res.status, header = ()=> {
+                        let data ;
+                        try{
+                        data= res.json();
+                        }catch (err){
+                          data=res.text();
+                        }
+                        let status = res.status, header = ()=> {
                             return this.transformHeaders(res.headers)
                         }, statusText = res.statusText;
                         if (waitid)
@@ -443,7 +449,13 @@ export class Fetch {
                     }, (res)=> {
                         //alert(JSON.stringify(res))
                         //alert(JSON.stringify(res.text()))
-                        let data = res.text(), status = res.status, header = ()=> {
+                      let data ;
+                      try{
+                        data= res.json();
+                      }catch (err){
+                        data=res.text();
+                      }
+                      let status = res.status, header = ()=> {
                             return this.transformHeaders(res.headers)
                         }, statusText = res.statusText;
                         //data = (data instanceof String) ? {data: data} : data;

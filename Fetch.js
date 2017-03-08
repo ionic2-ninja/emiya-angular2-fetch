@@ -324,7 +324,14 @@ var Fetch = (function () {
                     //requestParams.params['withCredentials'] = true
                     //alert(requestParams.url)
                     _this.Http.request(requestParams.url, requestParams.params).subscribe(function (res) {
-                        var data = res.json(), status = res.status, header = function () {
+                        var data;
+                        try {
+                            data = res.json();
+                        }
+                        catch (err) {
+                            data = res.text();
+                        }
+                        var status = res.status, header = function () {
                             return _this.transformHeaders(res.headers);
                         }, statusText = res.statusText;
                         if (waitid)
@@ -427,7 +434,14 @@ var Fetch = (function () {
                     }, function (res) {
                         //alert(JSON.stringify(res))
                         //alert(JSON.stringify(res.text()))
-                        var data = res.text(), status = res.status, header = function () {
+                        var data;
+                        try {
+                            data = res.json();
+                        }
+                        catch (err) {
+                            data = res.text();
+                        }
+                        var status = res.status, header = function () {
                             return _this.transformHeaders(res.headers);
                         }, statusText = res.statusText;
                         //data = (data instanceof String) ? {data: data} : data;
