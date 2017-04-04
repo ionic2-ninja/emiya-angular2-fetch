@@ -1,6 +1,6 @@
 {
   "name": "emiya-angular2-fetch",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "An angular2 http component with token management and mutil url switch",
   "main": "index.js",
   "scripts": {

@@ -310,8 +310,8 @@ var Fetch = (function () {
                         reject({
                             data: null,
                             header: null,
-                            status: null,
-                            statusText: null,
+                            status: -100,
+                            statusText: 'timeout',
                             ok: null,
                             type: null,
                             url: params.url,
