@@ -6,7 +6,7 @@ import {Http, URLSearchParams, Headers} from '@angular/http';
 
 const constants = {
     tokenStorageMethod: 'local',
-    httpRequestTimeout: 15000,
+    httpRequestTimeout: 30000,
     background_interface_type: undefined,
     proxies: undefined
 };

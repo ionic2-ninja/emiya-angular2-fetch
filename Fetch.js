@@ -12,7 +12,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var constants = {
     tokenStorageMethod: 'local',
-    httpRequestTimeout: 15000,
+    httpRequestTimeout: 30000,
     background_interface_type: undefined,
     proxies: undefined
 };
