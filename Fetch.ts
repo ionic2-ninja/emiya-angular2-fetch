@@ -6,7 +6,7 @@ import {Http, URLSearchParams, Headers} from '@angular/http';
 
 const constants = {
     tokenStorageMethod: 'local',
-    httpRequestTimeout: 30000,
+    httpRequestTimeout: 60000,
     background_interface_type: undefined,
     proxies: undefined
 };
@@ -17,7 +17,8 @@ export class Fetch {
     private token = Token
     private utils = Utils;
     private proxyCanEnable;
-    private api
+    private api;
+    private _timeoutListeners = [];
 
     private static decorators = [
         {type: Injectable},
@@ -27,7 +28,7 @@ export class Fetch {
     ];
 
     constructor(private Http: Http) {
-        if(window['cordova'])
+        if (window['cordova'])
             this.proxyCanEnable = false;
         else
             this.proxyCanEnable = true;
@@ -41,6 +42,32 @@ export class Fetch {
         //   delete d[api.interfaceMap[c].id].id
         // }
         // console.log(JSON.stringify(d))
+    }
+
+    public addTimeoutListener(cb) {
+        if (this._timeoutListeners.indexOf(cb) < 0) {
+            this._timeoutListeners.push(cb)
+        }
+    }
+
+    public removeTimeoutListener(cb) {
+        if (this._timeoutListeners.indexOf(cb) >= 0) {
+            this._timeoutListeners.splice(this._timeoutListeners.indexOf(cb), 1);
+        }
+    }
+
+    public setCommonTimeout(ms: number = 60000) {
+        constants.httpRequestTimeout = ms;
+    }
+
+    public notifyTimeoutListeners(param) {
+        for (let k in this._timeoutListeners) {
+            try {
+                this._timeoutListeners[k](param)
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 
     public load(id, config, proxy?) {
@@ -78,7 +105,7 @@ export class Fetch {
 
     public transformHeaders(headers) {
         let newP = {}
-        headers.forEach((...arg)=> {
+        headers.forEach((...arg) => {
             newP[arg[1]] = arg[0][0]
         })
         return newP
@@ -125,7 +152,7 @@ export class Fetch {
     }
 
     public request(params = null, override_url = null, noDeepCopy = null, useProxy = null) {
-        return new Promise((resolve, reject)=> {
+        return new Promise((resolve, reject) => {
             try {
                 let utils = this.utils;
                 let token = this.token;
@@ -161,6 +188,12 @@ export class Fetch {
                 }
                 else
                     throw new Error("http request params invalid");
+
+                let name = null;
+                if (utils.notNull(request) && utils.notNull(request.name))
+                    name = request.name
+                else if (utils.notNull(params) && utils.notNull(params.name))
+                    name = params.name;
                 //var request = $filter("filter")(api.interfaceMap, {id: params.url})[0];
 
                 // if (override_url)
@@ -315,8 +348,10 @@ export class Fetch {
                 var waittime = utils.notNull(params.timeout) ? params.timeout : (request && utils.notNull(request['timeout']) ? request['timeout'] : (utils.notNull(constants.httpRequestTimeout) ? constants.httpRequestTimeout : 6000));
                 //console.log(waittime)
                 var waitid;
+                let requestParams = this.transformParams(params)
                 if (waittime > 0)
-                    waitid = setTimeout(function () {
+                    waitid = setTimeout(() => {
+                        this.notifyTimeoutListeners(requestParams)
                         reject({
                             data: null,
                             header: null,
@@ -331,18 +366,17 @@ export class Fetch {
                     }, waittime);
 
                 if (waittime >= 0) {
-                    let requestParams = this.transformParams(params)
                     //requestParams.params['withCredentials'] = true
                     //alert(requestParams.url)
-
-                    this.Http.request(requestParams.url, requestParams.params).subscribe((res)=> {
-                        let data ;
-                        try{
-                        data= res.json();
-                        }catch (err){
-                          data=res.text();
+                    requestParams['name'] = name;
+                    this.Http.request(requestParams.url, requestParams.params).subscribe((res) => {
+                        let data;
+                        try {
+                            data = res.json();
+                        } catch (err) {
+                            data = res.text();
                         }
-                        let status = res.status, header = ()=> {
+                        let status = res.status, header = () => {
                             return this.transformHeaders(res.headers)
                         }, statusText = res.statusText;
                         if (waitid)
@@ -356,7 +390,7 @@ export class Fetch {
                                     _data = data;
                                 if (!_data)
                                     continue;
-                                paths = request['getTokens'][e].token_receive_path==null?[]:request['getTokens'][e].token_receive_path.split('.');
+                                paths = request['getTokens'][e].token_receive_path == null ? [] : request['getTokens'][e].token_receive_path.split('.');
                                 for (var d in paths) {
                                     if (paths[d].substr(0, 1) === '[' && paths[d].substr(paths[d].length - 1) === ']')
                                         index = paths[d].substr(1, paths[d].length - 2);
@@ -446,16 +480,16 @@ export class Fetch {
                             url: res.url,
                             statusCode: 0
                         })
-                    }, (res)=> {
+                    }, (res) => {
                         //alert(JSON.stringify(res))
                         //alert(JSON.stringify(res.text()))
-                      let data ;
-                      try{
-                        data= res.json();
-                      }catch (err){
-                        data=res.text();
-                      }
-                      let status = res.status, header = ()=> {
+                        let data;
+                        try {
+                            data = res.json();
+                        } catch (err) {
+                            data = res.text();
+                        }
+                        let status = res.status, header = () => {
                             return this.transformHeaders(res.headers)
                         }, statusText = res.statusText;
                         //data = (data instanceof String) ? {data: data} : data;
@@ -515,6 +549,9 @@ export class Fetch {
                                     }
                             }
                         }
+
+                        if (status == 408)
+                            this.notifyTimeoutListeners(requestParams)
 
                         reject({
                             data: data,

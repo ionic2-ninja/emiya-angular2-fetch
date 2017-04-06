@@ -12,7 +12,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var constants = {
     tokenStorageMethod: 'local',
-    httpRequestTimeout: 30000,
+    httpRequestTimeout: 60000,
     background_interface_type: undefined,
     proxies: undefined
 };
@@ -21,6 +21,7 @@ var Fetch = (function () {
         this.Http = Http;
         this.token = emiya_angular2_token_1.Token;
         this.utils = emiya_js_utils_1.Utils;
+        this._timeoutListeners = [];
         if (window['cordova'])
             this.proxyCanEnable = false;
         else
@@ -36,6 +37,30 @@ var Fetch = (function () {
         // }
         // console.log(JSON.stringify(d))
     }
+    Fetch.prototype.addTimeoutListener = function (cb) {
+        if (this._timeoutListeners.indexOf(cb) < 0) {
+            this._timeoutListeners.push(cb);
+        }
+    };
+    Fetch.prototype.removeTimeoutListener = function (cb) {
+        if (this._timeoutListeners.indexOf(cb) >= 0) {
+            this._timeoutListeners.splice(this._timeoutListeners.indexOf(cb), 1);
+        }
+    };
+    Fetch.prototype.setCommonTimeout = function (ms) {
+        if (ms === void 0) { ms = 60000; }
+        constants.httpRequestTimeout = ms;
+    };
+    Fetch.prototype.notifyTimeoutListeners = function (param) {
+        for (var k in this._timeoutListeners) {
+            try {
+                this._timeoutListeners[k](param);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+    };
     Fetch.prototype.load = function (id, config, proxy) {
         constants.background_interface_type = id;
         this.api = config;
@@ -157,6 +182,11 @@ var Fetch = (function () {
                 }
                 else
                     throw new Error("http request params invalid");
+                var name_1 = null;
+                if (utils_1.notNull(request) && utils_1.notNull(request.name))
+                    name_1 = request.name;
+                else if (utils_1.notNull(params) && utils_1.notNull(params.name))
+                    name_1 = params.name;
                 //var request = $filter("filter")(api.interfaceMap, {id: params.url})[0];
                 // if (override_url)
                 //   request.url[constants.background_interface_type] = override_url;
@@ -305,8 +335,10 @@ var Fetch = (function () {
                 var waittime = utils_1.notNull(params.timeout) ? params.timeout : (request && utils_1.notNull(request['timeout']) ? request['timeout'] : (utils_1.notNull(constants.httpRequestTimeout) ? constants.httpRequestTimeout : 6000));
                 //console.log(waittime)
                 var waitid;
+                var requestParams_1 = _this.transformParams(params);
                 if (waittime > 0)
                     waitid = setTimeout(function () {
+                        _this.notifyTimeoutListeners(requestParams_1);
                         reject({
                             data: null,
                             header: null,
@@ -320,10 +352,10 @@ var Fetch = (function () {
                         //console.log(32222222222222)
                     }, waittime);
                 if (waittime >= 0) {
-                    var requestParams = _this.transformParams(params);
                     //requestParams.params['withCredentials'] = true
                     //alert(requestParams.url)
-                    _this.Http.request(requestParams.url, requestParams.params).subscribe(function (res) {
+                    requestParams_1['name'] = name_1;
+                    _this.Http.request(requestParams_1.url, requestParams_1.params).subscribe(function (res) {
                         var data;
                         try {
                             data = res.json();
@@ -500,6 +532,8 @@ var Fetch = (function () {
                                     }
                             }
                         }
+                        if (status == 408)
+                            _this.notifyTimeoutListeners(requestParams_1);
                         reject({
                             data: data,
                             header: header,
